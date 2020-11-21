@@ -1,0 +1,29 @@
+version: '2.4'
+
+services:
+  picapport:
+    container_name: 'picapport1'
+    image: 'ddw17/picapport:9.0.01'
+    hostname: 'somename.tld'
+    restart: 'unless-stopped'
+#    user: '2204:2204' 
+    # NB: cpu_count and cpu_percent are valid only for Windows hosts!
+    cpus: '1.0'
+    mem_limit: '4G'
+    volumes:
+      - '/mnt/picapport/data:/opt/picapport/data:rw'
+      - '/mnt/picapport/photos:/opt/picapport/photos:rw'
+    networks:
+      'picapport-net':
+        ipv4_address: '172.22.42.42'
+        # ipv6_address: 2001:3984:3989::1
+networks:
+  'picapport-net':
+    name: 'picapport-net'
+    driver: 'bridge'
+    ipam:
+      driver: 'default'
+      config:
+        - subnet: '172.22.42.0/24'
+          gateway: '172.22.42.1'
+
