@@ -28,14 +28,17 @@ Either you start the container using plain docker or using docker-compose, see b
 ## docker run
 Note that both following example commands publish the Picapport at port 80 of the host. 
 Allow 2G memory and let Java do the configuration accordingly:
+
 `docker run -v '<yourpicpath>:/opt/picapport/photos' -v '<yourdatapath>:/opt/picapport/data' -m 2G -p 80:8888 ddw17/picapport:latest`
 
   
 Provide Java with the Xmx option (to define maximum memory allocation, although Java may consume more than that) without an external enforcement of any limit:
+
 `docker run -v '<yourpicpath>:/opt/picapport/photos' -v '<yourdatapath>:/opt/picapport/data' -e PICAPPORT_JAVAPARS=-Xmx2048m -p 80:8888 ddw17/picapport:latest`
 
 ## docker-compose
 I recommend using docker-compose and to use it to limit the containers resources. The following example additionally configures an own docker network so Picapport can be reached at http://172.22.42.42:8888 
+
 Remarks
 * If you want your Picapport running as a different user, uncomment the user line and provide UID:GID. 
 * If you want Docker to do the NATing and proxying to make Picapport service available at the host's IP, uncomment (and adapt) the ports statement. 
