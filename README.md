@@ -11,7 +11,7 @@ This Docker file for Picapport is inspired by existing Docker files for Picappor
 * Open source: you can see, check and alter all the sources
 * No host filesystem operation as root
 * Support configuring the listen port without re-building the image
-* Not exporting a port (since can only be configured at build time, while it technically does nothing, see docs)
+* Not exposing a port (since that can only be configured at build time, while it technically does nothing, see docs)
 
 Folder structure:
 * volume at /opt/picapport/data contains all picapport-specific data:
