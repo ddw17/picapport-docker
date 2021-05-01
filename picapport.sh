@@ -10,7 +10,8 @@ PAPHOTOPATH="${PAUSERHOME}/photos"
 PADIR="data"
 CONFIG="$PAUSERHOME/$PADIR/picapport.properties"
 ENVFILE="$PADIR/ENV"
-PLUGINDIR="$PAUSERHOME/$PADIR/groovy"
+PLUGINSDIR="$PAUSERHOME/$PADIR/pugins"
+ADDONSDIR="$PAUSERHOME/$PADIR/groovy"
 
 function clean_up {
   echo "=== Shutting down..."
@@ -30,11 +31,19 @@ if [ -f "$ENVFILE" ]; then
 fi
 
 # create & polulate plugin dir if it does not exist
-if [ ! -e "$PLUGINDIR" ]; then
-  echo "=== Plugin directory ($PLUGINDIR) does not exist. Will create it and copy plugins from image..."
-  mkdir "$PLUGINDIR"
-  cp -av /plugins/* "$PLUGINDIR"
+if [ ! -e "$PLUGINSDIR" ]; then
+  echo "=== Plugin directory ($PLUGINSDIR) does not exist. Will create it and copy plugins from image..."
+  mkdir "$PLUGINSDIR"
+  cp -av /plugins/* "$PLUGINSDIR"
   echo "=== Plugin directory created and populated. ==="
+fi
+
+# create & polulate addons dir if it does not exist
+if [ ! -e "$ADDONSDIR" ]; then
+  echo "=== Addons directory ($ADDONSDIR) does not exist. Will create it and copy plugins from image..."
+  mkdir "$ADDONSDIR"
+  cp -av /addons/* "$ADDONSDIR"
+  echo "=== Addons directory created and populated. ==="
 fi
 
 # defaults: port 8888, German, WARNING, "". This should be set by the Dockerfile, but can also be overriden on command line or via ENV file.

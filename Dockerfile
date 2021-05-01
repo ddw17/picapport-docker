@@ -23,18 +23,23 @@ RUN echo 'DPkg::Post-Invoke { "rm -f /var/cache/apt/archives/*.deb /var/cache/ap
 ADD https://www.picapport.de/download/${VERSION}/picapport-headless.jar /opt/picapport/picapport-headless.jar
 
 RUN mkdir /plugins
+ADD https://www.picapport.de/plugins/downloads/PicApportDcRawPlugin.zip \
+  https://www.picapport.de/plugins/downloads/PicApportJavaImagePlugin.zip \
+  https://www.picapport.de/plugins/downloads/PicApportPdfPlugin.zip \
+  https://www.picapport.de/plugins/downloads/PicApportVideoThumbnailPlugin.zip /plugins/
+RUN mkdir /addons
 ADD https://dl.bintray.com/groovy/maven/apache-groovy-binary-3.0.6.zip \
   https://www.picapport.de/download/add-ons//pagpOSMGeoReverseEncoder-1.0.0.zip \
   https://www.picapport.de/download/add-ons//pagpOpenrouteGeoJSONRoute-1.0.0.zip \
   https://www.picapport.de/download/add-ons//pagpMetadataAnalyser-1.0.0.zip \
   https://www.picapport.de/download/add-ons//pagfNonJpgTitleField-1.0.0.zip \
   https://www.picapport.de/download/add-ons//pagpExifToolSimpleInfo-1.0.0.zip \
-  https://www.picapport.de/download/add-ons//pagcPrivateFileFilter-1.0.0.zip /plugins/
+  https://www.picapport.de/download/add-ons//pagcPrivateFileFilter-1.0.0.zip /addons/
 
 ADD picapport.sh /opt/picapport/picapport.sh
 RUN addgroup --gid $PICAPPORT_UID $PICAPPORT_USER \
    && adduser $PICAPPORT_USER  --shell /bin/bash --uid $PICAPPORT_UID --home /opt/picapport --no-create-home --gid $PICAPPORT_UID --gecos 'Picapport Application User' --disabled-password \
-   && chmod 666 /opt/picapport/picapport-headless.jar /plugins/*
+   && chmod 666 /opt/picapport/picapport-headless.jar /plugins/* /addons/*
 
 VOLUME [ "/opt/picapport/data", "/opt/picapport/photos" ]
 USER $PICAPPORT_USER
