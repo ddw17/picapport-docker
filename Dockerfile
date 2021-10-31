@@ -1,7 +1,7 @@
 ARG IMAGE="ubuntu:20.04"
 
 FROM ${IMAGE}
-ARG VERSION=9-0-01
+ARG VERSION=10-2-00
 ARG BUILD_DATE
 ARG PICAPPORT_USER="picapport"
 ARG PICAPPORT_UID="5000"
@@ -22,19 +22,23 @@ RUN echo 'DPkg::Post-Invoke { "rm -f /var/cache/apt/archives/*.deb /var/cache/ap
 
 ADD https://www.picapport.de/download/${VERSION}/picapport-headless.jar /opt/picapport/picapport-headless.jar
 
+# Plugin do not carry versions in their files / download locations. Current versions according to https://www.picapport.de/de/plugins.php
+# PicApportJavaImagePlugin: 1.1.00
+# PicApportVideoThumbnailPlugin: 1.7.00
 RUN mkdir /plugins
 ADD https://www.picapport.de/plugins/downloads/PicApportDcRawPlugin.zip \
   https://www.picapport.de/plugins/downloads/PicApportJavaImagePlugin.zip \
   https://www.picapport.de/plugins/downloads/PicApportPdfPlugin.zip \
   https://www.picapport.de/plugins/downloads/PicApportVideoThumbnailPlugin.zip /plugins/
 RUN mkdir /addons
-ADD https://dl.bintray.com/groovy/maven/apache-groovy-binary-3.0.6.zip \
-  https://www.picapport.de/download/add-ons//pagpOSMGeoReverseEncoder-1.0.0.zip \
-  https://www.picapport.de/download/add-ons//pagpOpenrouteGeoJSONRoute-1.0.0.zip \
-  https://www.picapport.de/download/add-ons//pagpMetadataAnalyser-1.0.0.zip \
-  https://www.picapport.de/download/add-ons//pagfNonJpgTitleField-1.0.0.zip \
-  https://www.picapport.de/download/add-ons//pagpExifToolSimpleInfo-1.0.0.zip \
-  https://www.picapport.de/download/add-ons//pagcPrivateFileFilter-1.0.0.zip /addons/
+ADD https://groovy.jfrog.io/artifactory/dist-release-local/groovy-zips/apache-groovy-binary-3.0.8.zip \
+  https://www.picapport.de/download/add-ons/pagpPicApportAITagger-2.0.0.zip \
+  https://www.picapport.de/download/add-ons/pagpOSMGeoReverseEncoder-2.0.0.zip \
+  https://www.picapport.de/download/add-ons/pagpOpenrouteGeoJSONRoute-1.0.0.zip \
+  https://www.picapport.de/download/add-ons/pagpMetadataAnalyser-1.1.0.zip \
+  https://www.picapport.de/download/add-ons/pagfNonJpgTitleField-1.0.0.zip \
+  https://www.picapport.de/download/add-ons/pagpExifToolSimpleInfo-1.0.0.zip \
+  https://www.picapport.de/download/add-ons/pagcPrivateFileFilter-1.0.0.zip /addons/
 
 ADD picapport.sh /opt/picapport/picapport.sh
 RUN addgroup --gid $PICAPPORT_UID $PICAPPORT_USER \
