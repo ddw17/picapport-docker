@@ -18,7 +18,12 @@ RUN echo 'DPkg::Post-Invoke { "rm -f /var/cache/apt/archives/*.deb /var/cache/ap
         && echo 'Acquire::GzipIndexes "true"; Acquire::CompressionTypes::Order:: "gz";' > /etc/apt/apt.conf.d/docker-gzip-indexes  \
         && echo 'Apt::AutoRemove::SuggestsImportant "false";' > /etc/apt/apt.conf.d/docker-autoremove-suggests \
         && apt-get -y update \
-        && apt-get --no-upgrade --no-install-suggests --no-install-recommends -y install tini openjdk-11-jre-headless  libjpeg-progs dcraw exiftool psmisc
+        && apt-get --no-upgrade --no-install-suggests --no-install-recommends -y install tini openjdk-11-jre-headless  libjpeg-progs dcraw exiftool psmisc locales
+
+RUN locale-gen de_DE.UTF-8
+ENV LANG de_DE.UTF-8
+ENV LC_CTYPE de_DE.UTF-8
+ENV LC_ALL de_DE.UTF-8
 
 ADD https://www.picapport.de/download/${VERSION}/picapport-headless.jar /opt/picapport/picapport-headless.jar
 
