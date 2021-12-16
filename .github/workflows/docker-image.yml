@@ -28,8 +28,7 @@ jobs:
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
           images: schoebelh/picapport-docker
-          flavor: |
-            latest=auto
+          flavor: latest=auto
           tags: |
             type=raw,value={{tag}}-{{branch}}
       
