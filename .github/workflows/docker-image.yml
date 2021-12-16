@@ -29,10 +29,7 @@ jobs:
         with:
           images: schoebelh/picapport-docker
           tags: |
-            type=schedule
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
+            type=raw,value={{tag}}-{{branch}}
       
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
