@@ -30,7 +30,7 @@ jobs:
           images: schoebelh/picapport-docker
           flavor: latest=auto
           tags: |
-            type=schedule
+#            type=schedule
             type=ref,event=branch
 #            type=raw,value={{tags}}-{{branch}}
       
