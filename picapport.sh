@@ -8,15 +8,15 @@ PICAPPORT_JAVAPARS="$4"
 PAUSERHOME="/opt/picapport"
 PAPHOTOPATH="${PAUSERHOME}/photos"
 PADIR="data"
-CONFIG="$PAUSERHOME/$PADIR/picapport.properties"
+DEFAULT_CONFIG="$PAUSERHOME/$PADIR/picapport.properties"
 ENVFILE="$PADIR/ENV"
 PLUGINSDIR="$PAUSERHOME/$PADIR/plugins"
 ADDONSDIR="$PAUSERHOME/$PADIR/groovy"
 
 function clean_up {
   echo "=== Shutting down..."
-  killall java
-  wait %1
+  killall -w java
+  [ -e "$PAUSERHOME/$PADIR/PicApport.lck" ] && rm "$PAUSERHOME/$PADIR/PicApport.lck"
   echo "=== Shutdown complete. ==="
   exit
 }
@@ -51,14 +51,13 @@ fi
 [ -z "$PICAPPORT_LANG" ] && PICAPPORT_LANG="de"
 [ -z "$PICAPPORT_LOGLEVEL" ] && PICAPPORT_LOGLEVEL="WARNING"
 [ -z "$PICAPPORT_JAVAPARS" ] && PICAPPORT_JAVAPARS=" "
+[ -z "$CONFIG"] && CONFIG=${DEFAULT_CONFIG}
 
 # install a minimal config if there is none present
 [ ! -f "$CONFIG" ] && printf "%s\n%s\n%s\n" "server.port=$PICAPPORT_PORT" "robot.root.0.path=$PAPHOTOPATH" "foto.jpg.usecache=2" > "$CONFIG"
 
 echo "=== Starting picapport process (with $(id))..."
 java -Duser.language="$PICAPPORT_LANG" -DTRACE="$PICAPPORT_LOGLEVEL" -Duser.home="$PAUSERHOME" -Dpicapport.directory="$PADIR" $PICAPPORT_JAVAPARS \
-  -jar "$PAUSERHOME/picapport-headless.jar" -configfile="$CONFIG" -pgui.enabled=false &
+  -jar "$PAUSERHOME/picapport-headless.jar" -configfile="$CONFIG" -pgui.enabled=false
 
-while true; do sleep 1; done    # wait for shutdown signals
-
-
+clean_up
