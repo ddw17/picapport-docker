@@ -10,6 +10,7 @@ ENV PICAPPORT_PORT="8888"
 ENV PICAPPORT_LANG="de"
 ENV PICAPPORT_LOGLEVEL="WARNING"
 ENV PICAPPORT_JAVAPARS=""
+ENV LC_ALL="C.UTF-8"
 
 RUN echo 'DPkg::Post-Invoke { "rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin || true"; };' > /etc/apt/apt.conf.d/docker-clean  \
         && echo 'APT::Update::Post-Invoke { "rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin || true"; };' >> /etc/apt/apt.conf.d/docker-clean  \
