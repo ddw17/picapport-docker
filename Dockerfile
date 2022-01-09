@@ -20,6 +20,7 @@ RUN echo 'DPkg::Post-Invoke { "rm -f /var/cache/apt/archives/*.deb /var/cache/ap
         && apt-get -y update \
         && apt-get --no-upgrade --no-install-suggests --no-install-recommends -y install tini openjdk-11-jre-headless  libjpeg-progs dcraw exiftool psmisc
 
+
 ADD https://www.picapport.de/download/${VERSION}/picapport-headless.jar /opt/picapport/picapport-headless.jar
 
 # Plugin do not carry versions in their files / download locations. Current versions according to https://www.picapport.de/de/plugins.php
@@ -47,7 +48,7 @@ RUN addgroup --gid $PICAPPORT_UID $PICAPPORT_USER \
 
 VOLUME [ "/opt/picapport/data", "/opt/picapport/photos" ]
 USER $PICAPPORT_USER
-ENTRYPOINT ["tini", "--"]
+ENTRYPOINT ["tini", "-g", "--"]
 CMD [ "/bin/bash", "-c" , "/opt/picapport/picapport.sh $PICAPPORT_PORT $PICAPPORT_LANG $PICAPPORT_LOGLEVEL $PICAPPORT_JAVAPARS" ]
 
 LABEL version=$VERSION \
